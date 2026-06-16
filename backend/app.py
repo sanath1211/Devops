@@ -1,5 +1,4 @@
-from flask import Flask , request, render_template
-import json
+from flask import Flask , request
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
@@ -15,20 +14,10 @@ db = client.test
 collection = db['flask-tutorial']
 app = Flask(__name__)
 
-@app.route("/")
-def home():
-    return render_template('index.html')
-
-@app.route("/api")
-def api_data():
-    f = open('data.json', 'r')
-    file_data = json.load(f)
-    
-    return file_data
 
 @app.route("/submit", methods = ['POST'])
 def submit():
-    form_data = dict(request.form)      # has to be a python dict cause nosql deals with json objects
+    form_data = dict(request.json)      # has to be a python dict cause nosql deals with json objects
 
     collection.insert_one(form_data)
     return 'Data submitted successfully'
@@ -49,4 +38,4 @@ def view_data():
     return data
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(host= '0.0.0.0', port= 9000, debug = True)
