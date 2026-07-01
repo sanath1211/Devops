@@ -9,6 +9,10 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
+@app.route("/to-do")
+def to_do():
+    return render_template('to-do.html')
+
 @app.route("/submit", methods = ['POST'])
 def submit():
     form_data = dict(request.form)
@@ -16,6 +20,14 @@ def submit():
     requests.post(BACKEND_URL + '/submit', json = form_data)
 
     return 'Data Submitted'
+
+@app.route("/add-item", methods = ['POST'])
+def add_item():
+    form_data_to_do = dict(request.form)
+
+    requests.post(BACKEND_URL + '/add-item', json = form_data_to_do)
+
+    return 'Item Added'
 
 @app.route("/get-data")
 def get_data():
