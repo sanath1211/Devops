@@ -22,6 +22,13 @@ def submit():
     collection.insert_one(form_data)
     return 'Data submitted successfully'
 
+@app.route("/add-item", methods = ['POST'])
+def add_item():
+    form_data_to_do = dict(request.json)      # has to be a python dict cause nosql deals with json objects
+
+    collection.insert_one(form_data_to_do)
+    return 'Item added successfully'
+
 
 @app.route("/view")
 def view_data():
