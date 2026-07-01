@@ -1,8 +1,8 @@
-from flask import Flask , request
+from flask import Flask , request, jsonify
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
-
+import json
 import os
 load_dotenv()
 
@@ -36,6 +36,12 @@ def view_data():
         'data' : data 
     }
     return data
+
+@app.route("/api")
+def get_data():
+    with open("data.json", "r") as f:
+        data = json.load(f)
+    return jsonify(data)
 
 if __name__ == "__main__":
     app.run(host= '0.0.0.0', port= 9000, debug = True)
